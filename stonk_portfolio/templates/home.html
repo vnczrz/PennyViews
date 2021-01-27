@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% if ticker %}
+    good job
+{% endif %}
+
+
+{% if res_ %}   
+    
+    {% if res_ == "Enter..." %}
+        
+        There was an error please try again
+    
+    {% else %}
+        <h1> {{ res_.ticker }}</h1>
+
+    {% endif %}
+        
+{% endif %}
+
+
+{% endblock %}

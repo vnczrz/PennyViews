@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class='container p-5'>
+    <div class='container_fluid'>
+
+        <div class="container">
+            <h2>Watchlist</h2>
+            <p>Stocks you are currently watching</p>            
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Stock Ticker</th>
+                  <th>Company Name</th>
+                  <th>Current Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for portfolio in object_list %}
+                <tr>
+                  <td>John</td>
+                  <td>Doe</td>
+                  <td>john@example.com</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+    </div>
+</div>
+
+{% endblock %}

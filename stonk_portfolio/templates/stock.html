@@ -1,0 +1,269 @@
+{% extends "layout.html" %}
+{% load custom_tags %}
+{% block content %}
+
+
+
+    {% if message %}
+        
+      <div>{{ message }}</div>
+    
+    {% else %}
+
+
+<div class='container pb-5'>
+<div class='container_fluid'>
+    <div class='row'>
+        <!-- Chart and info column -->
+        <div class='col-md-7  col-sm-10'>
+            <div class='container_fluid'>
+
+              <!-- CHART -->
+              <div class="row pt-2 ">
+                      <div class="container p-4">
+                        <div class='col-md-10 offset-md-2 '>
+                        <div>
+                            <h3 class='pb-2'>{{stock.name}}</h3>
+                        </div>
+                            <!-- TradingView Widget BEGIN -->
+                            <div class="tradingview-widget-container">
+                                <div id="tradingview_05c47"></div>
+                                <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/NASDAQ-AAPL/" rel="noopener"                             target="_blank"><span class="blue-text">{{ stock.symbol }}</span></a> by TradingView</div>
+                                <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                                <script type="text/javascript">
+                                new TradingView.widget(
+                                {
+                                "height": 470, 
+                                "width":600, 
+                                "symbol": "{{ stock.exchange }}:{{ stock.symbol }}",
+                                "interval": "D",
+                                "timezone": "Etc/UTC",
+                                "theme": "light",
+                                "style": "1",
+                                "locale": "en",
+                                "toolbar_bg": "#f1f3f6",
+                                "enable_publishing": false,
+                                "hide_legend": true,
+                                "allow_symbol_change": true,
+                                "save_image": false,
+                                "container_id": "tradingview_05c47"
+                              }
+                                );
+                                </script>
+                              </div>
+                              <!-- TradingView Widget END -->
+                        </div>
+                    </div>
+              </div>
+              <!-- ENDCHART -->
+                
+              <!-- Info accordion -->
+              <div class='row'>
+                <div class='container p-4'>
+                
+                        <div class='col-md-12 offset-md-2'>
+                          <div class="accordion" id="accordionExample">
+                                    
+                                    <!-- PROFILE CARD -->
+                                    <div class="card text-white bg-secondary">
+                                      <div class="card-header text-white bg-secondary" id="headingOne">
+                                        <h2 class="mb-0">
+                                          <button class="btn  text-left text-white bg-secondary"  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            Profile
+                                          </button>
+                                        </h2>
+                                      </div>
+                                  
+                                      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            {{ basic_info.longBusinessSummary }}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <!-- FINANCIALS OVERVIEW CARD -->
+                                    <div class="card text-white bg-success">
+                                      <div class="card-header" id="headingTwo">
+                                        <h2 class="mb-0">
+                                          <button class="btn text-white bg-success  text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            Financials Overview
+                                          </button>
+                                        </h2>
+                                      </div >
+                                      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                          <div class='table-responsive'>
+                                            <table class="table table-hover table-sm col-md-4 text-white">
+                                              <thead>
+                                                <tr>
+                                                  <th colspan="2">Valuation</th>
+                                                  <th colspan="2">Price History</th>
+                                                </tr>
+                                              </thead>
+                                                <tbody>
+                                                  <tr>
+                                                    <td class="">Market Cap</td>  
+                                                    <td class="number">{{ basic_info.marketCap | human_format }}</td>
+                                                    <td class="">Prev Close</td> 
+                                                    <td class="number">{{ basic_info.previousClose | usd}}</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td class="">Enterprise Value</td>  
+                                                    <td class="number">{{ basic_info.enterpriseValue | human_format  }}</td>
+                                                    <td class="">Prev Open</td>  
+                                                    <td class="number">{{ basic_info.open | usd }}</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td class="">Enterprise Value/EBIDTA</td>  
+                                                    <td class="number">{{ basic_info.enterpriseToEbitda }}</td>
+                                                    <td class="">52 Wk High</td>  
+                                                    <td class="number">{{ basic_info.fiftyTwoWeekHigh  | usd }}</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td class="">Shares Outstanding</td>  
+                                                    <td class="number">{{ basic_info.sharesOutstanding | human_format }}</td>
+                                                    <td class="">52 Wk Low </td> 
+                                                    <td class="number">{{ basic_info.fiftyTwoWeekLow  | usd }}</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td class="">Forward PE </td>
+                                                    <td class="number">{{ basic_info.forwardPE }}</td>
+                                                    <td class="">Volume</td>  
+                                                    <td class="number">{{ basic_info.volume | human_format }}</td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                            </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <!-- PRICE HISTORY CARD -->
+                                    <div class="card text-white bg-info">
+                                      <div class="card-header" id="headingFour">
+                                        <h2 class="mb-0">
+                                          <button class="btn text-white bg-info text-left" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                            Price History
+                                          </button>
+                                        </h2>
+                                      </div>
+                                  
+                                      <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                          <div class='table-responsive'>
+                                            <table class="table table-hover table-sm col-md-4">
+                                                <tbody>
+                                                  {% for dict_item in price_his %}
+                                                    
+                                                  <tr>
+                                                    <td >{{ dict_item.Attribute }}</td>  
+                                                    <td class="number">{{ dict_item.Value }}</td>
+                                                  </tr>
+                                                    
+                                                  {% endfor %}
+                                                </tbody>
+                                              </table>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    </div> 
+                                    <!-- INCOME STATEMENT -->
+                                    <div class="card text-white bg-dark">
+                                      <div class="card-header" id="headingThree">
+                                        <h2 class="mb-0">
+                                          <button class="btn text-white bg-dark text-left" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            Income Statement
+                                          </button>
+                                        </h2>
+                                      </div>
+                                  
+                                      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                          <div class='table-responsive'>
+                                            <table class="table table-hover table-sm col-md-4">
+                                                <tbody>
+                                                  {% for dict_item in balance %}
+                                                    
+                                                  <tr>
+                                                    <td>{{ dict_item.Attribute }}</td>  
+                                                    <td class="number">{{ dict_item.Value }}</td>
+                                                  </tr>
+                                                    
+                                                  {% endfor %}
+                                                </tbody>
+                                              </table>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    </div>  
+                                    
+                          </div>
+                        </div>
+                        
+                </div> 
+              </div>        
+              <!-- end accord -->
+            
+            </div>
+          </div>
+                
+        <!-- end chart col -->
+                 
+    
+        <!-- watchlist sidebar col -->
+        {% if user.is_authenticated %}
+        <div class='col-md-3 offset-md-1 col-sm-12 pt-2'>
+          <div class='container_fluid'>
+              <div class='p-4'>
+          <div class="card mt-5" style="width: 15rem;">
+            <div class="panel-group">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 >
+                    <a data-toggle="collapse" href="#collapse1">Collapsible list group</a>
+                  </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse">
+                  <ul class="list-group">
+                    <li class="list-group-item">One</li>
+                    <li class="list-group-item">Two</li>
+                    <li class="list-group-item">Three</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+              <a href="#" class="btn btn-primary">Add {{ stock.symbol }} to Watchlist</a>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+
+        {% else %}
+
+        <div class='col-md-3 offset-md-1 col-sm-12 pt-2'>
+          <div class='container_fluid'>
+              <div class='p-4'>
+          <div class="card mt-5" style="width: 15rem;">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Watchlist</li>
+                
+              </ul>
+              <a href="#" class="btn btn-primary">Add {{ stock.symbol }} to Watchlist</a>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        {% endif %}
+        <!-- end col -->
+    
+    </div>
+</div>
+</div>
+
+
+
+
+
+    
+{% endif %}
+{% endblock %}
