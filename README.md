@@ -9,7 +9,7 @@ A webapp developed with Python Django Web Framework that allows users to create 
 * Bootstrap 4
 * Python- Django Web Framework
 * Yahoo Fin API
-* MySQL
+* SQLite3
 
 
 
